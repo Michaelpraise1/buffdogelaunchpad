@@ -1,0 +1,16 @@
+.home-bg {
+  background-color: #0b0114;
+  background-image: radial-gradient(
+      83.7% 127.35% at 100% -48.34%,
+      rgba(158, 91, 231, 0) 0%,
+      rgba(100, 74, 146, 0.728) 32.06%,
+      rgba(68, 78, 107, 0) 100%
+    );
+}
+
+.slider-bg {
+  background: rgba(51, 26, 64, 1);
+}
+.foggy-bg {
+  background: rgba(51, 26, 64, 1);
+}

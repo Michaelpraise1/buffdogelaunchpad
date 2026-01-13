@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* Custom animations for the hero button */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-2px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 193, 7, 0.4), 0 0 40px rgba(255, 193, 7, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 30px rgba(255, 193, 7, 0.6), 0 0 60px rgba(255, 193, 7, 0.3);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+  background: rgba(17, 14, 20, 1);
+  max-width: 1680px;
+}
+
+scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(180deg);
+  }
+}
+
+.card-bg-new {
+  background: radial-gradient(
+    232.98% 139.08% at -4950% -4950%,
+    rgba(199, 101, 255, 0.5) 0%,
+    rgba(51, 27, 65, 0.5) 100%
+  );
+}
+
+.bg-grad-new {
+  background: linear-gradient(180deg, #8944de 0%, #382550 100%);
+}
+
+.staking-grad {
+  background: linear-gradient(180deg, #8944de 0%, #382550 100%);
+}
+.top-cult-grad {
+  background: linear-gradient(
+    226.08deg,
+    rgba(132, 75, 202, 0.46) 23.52%,
+    #382550 76.48%
+  );
+}
+
+.golden-text {
+  background: linear-gradient(180deg, #f8cc32 0%, #ff8a14 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* for Firefox */
+
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+.holder-grad {
+  /* background: linear-gradient(153deg, #0b506f 0%, #111927 100%); */
+  background: linear-gradient(
+    144.7deg,
+    #382550 20.48%,
+    rgba(123, 74, 184, 0.5) 79.52%
+  );
+}
+
+.smooth-borders {
+  border: 1.06px solid #ffffff14;
+}
+
+.temple-grad {
+  background: linear-gradient(
+    226.08deg,
+    rgba(132, 75, 202, 0.46) 23.52%,
+    #382550 76.48%
+  );
+}
