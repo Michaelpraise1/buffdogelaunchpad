@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 import { Header } from "../components/navigation/Header";
-import { FiArrowLeft, FiTwitter, FiGlobe, FiMessageSquare } from "react-icons/fi";
+import { FiArrowLeft, FiTwitter, FiGlobe } from "react-icons/fi";
 import { FaDiscord } from "react-icons/fa";
 import { PriceChart } from "../components/tokens/PriceChart";
 import { CommentSection } from "../components/tokens/CommentSection";
@@ -44,7 +45,7 @@ const TokenDetail: React.FC = () => {
 
   const fetchToken = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/tokens/${id}`);
+      const response = await fetch(`${API_BASE_URL}/api/tokens/${id}`);
       const data = await response.json();
       setToken(data.token);
     } catch (error) {
@@ -56,7 +57,7 @@ const TokenDetail: React.FC = () => {
 
   const fetchTradeHistory = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/trades/history/${id}`);
+      const response = await fetch(`${API_BASE_URL}/api/trades/history/${id}`);
       const data = await response.json();
       setTrades(data.trades);
     } catch (error) {
@@ -69,7 +70,7 @@ const TokenDetail: React.FC = () => {
       const jwtToken = localStorage.getItem("token");
       if (!jwtToken) return;
 
-      const response = await fetch(`http://localhost:5000/api/users/balance/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/users/balance/${id}`, {
         headers: {
           "Authorization": `Bearer ${jwtToken}`
         }
@@ -109,7 +110,7 @@ const TokenDetail: React.FC = () => {
         ? { tokenId: id, solAmount: parseFloat(amount) }
         : { tokenId: id, tokenAmount: parseFloat(amount) * 1000000 };
 
-      const response = await fetch(`http://localhost:5000/api/trades/${endpoint}`, {
+      const response = await fetch(`${API_BASE_URL}/api/trades/${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

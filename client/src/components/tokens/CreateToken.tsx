@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { API_BASE_URL } from '../../config'
 import { FiArrowLeft, FiUpload } from "react-icons/fi";
 import {
     FaTwitter,
@@ -140,7 +141,7 @@ const CreateToken: React.FC<{ showForm: boolean; setShowForm: React.Dispatch<Rea
                 if (link.url) socials[link.platform] = link.url;
             });
 
-            const response = await fetch('http://localhost:5000/api/tokens', {
+            const response = await fetch(`${API_BASE_URL}/api/tokens`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

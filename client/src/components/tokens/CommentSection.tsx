@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { API_BASE_URL } from "../../config";
 import { useAuth } from "../../context/AuthContext";
 import { FiSend, FiImage, FiMessageSquare } from "react-icons/fi";
 
@@ -26,7 +27,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ tokenId }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/comments/${tokenId}`);
+      const response = await fetch(`${API_BASE_URL}/api/comments/${tokenId}`);
       const data = await response.json();
       setComments(data.comments || []);
     } catch (error) {
@@ -47,7 +48,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ tokenId }) => {
     setPosting(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/comments", {
+      const response = await fetch(`${API_BASE_URL}/api/comments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

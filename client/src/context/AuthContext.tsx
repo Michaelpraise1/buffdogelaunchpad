@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { API_BASE_URL } from "../config";
 import { useWallet } from "@solana/wallet-adapter-react";
 import bs58 from "bs58";
 
@@ -40,7 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const signature = await signMessage(encodedMessage);
       const signatureBase58 = bs58.encode(signature);
 
-      const response = await fetch("http://localhost:5000/api/auth/wallet", {
+      const response = await fetch(`${API_BASE_URL}/api/auth/wallet`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/auth/profile", {
+      const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

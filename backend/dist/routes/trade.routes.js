@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const trade_controller_1 = require("../controllers/trade.controller");
+const auth_middleware_1 = require("../config/auth.middleware");
+const router = (0, express_1.Router)();
+router.post("/buy", auth_middleware_1.authMiddleware, trade_controller_1.buyToken);
+router.post("/sell", auth_middleware_1.authMiddleware, trade_controller_1.sellToken);
+router.get("/history/:tokenId", trade_controller_1.getTradeHistory);
+exports.default = router;

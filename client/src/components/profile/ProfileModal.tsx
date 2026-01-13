@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { API_BASE_URL } from "../../config";
 import { useAuth } from "../../context/AuthContext";
 import { IoClose } from "react-icons/io5";
 
@@ -37,7 +38,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
 
     setPortfolioLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/users/portfolio", {
+      const response = await fetch(`${API_BASE_URL}/api/users/portfolio`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
