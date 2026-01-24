@@ -19,6 +19,10 @@ export interface IToken extends Document {
   virtualSolReserves: number;
   virtualTokenReserves: number;
   isGraduated: boolean;
+  graduatedAt?: Date;
+  migrationHash?: string;
+  maxWalletLimit?: number; // Anti-rug: Max tokens a wallet can hold
+  creatorBuyAmount?: number; // Pre-buy amount
   createdAt: Date;
   updatedAt: Date;
 }
@@ -43,6 +47,10 @@ const TokenSchema: Schema = new Schema(
     virtualSolReserves: { type: Number, default: 30 }, // Start with 30 SOL virtual liquidity
     virtualTokenReserves: { type: Number, default: 1000000000 }, // 1B tokens
     isGraduated: { type: Boolean, default: false },
+    graduatedAt: { type: Date },
+    migrationHash: { type: String },
+    maxWalletLimit: { type: Number },
+    creatorBuyAmount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

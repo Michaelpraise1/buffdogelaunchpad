@@ -6,7 +6,9 @@ import Balance from "../models/balance.model";
 
 const INITIAL_VIRTUAL_SOL = 30;
 const INITIAL_VIRTUAL_TOKENS = 1000000000; // 1B
-const GRADUATION_SOL_TARGET = 85; // Amount of SOL needed to graduate
+const GRADUATION_SOL_TARGET = 86; // 80 SOL Liquidity + 6 SOL Fee
+const MIGRATION_SOL_AMOUNT = 80;
+const TEAM_FEE_SOL_AMOUNT = 6;
 
 export const buyToken = async (req: AuthRequest, res: Response) => {
   try {
@@ -32,6 +34,18 @@ export const buyToken = async (req: AuthRequest, res: Response) => {
     const nextY = k / nextX;
     const tokensToReceive = currentY - nextY;
 
+    // Check Anti-Rug Max Wallet Limit
+    if (token.maxWalletLimit) {
+      const userBalance = await Balance.findOne({ user: userId, token: tokenId });
+      const currentAmount = userBalance ? userBalance.amount : 0;
+
+      if (currentAmount + tokensToReceive > token.maxWalletLimit) {
+        return res.status(400).json({
+          message: `Anti-Rug Mode: You can only hold max ${token.maxWalletLimit} tokens`
+        });
+      }
+    }
+
     // Update Token State
     token.virtualSolReserves = nextX;
     token.virtualTokenReserves = nextY;
@@ -43,7 +57,12 @@ export const buyToken = async (req: AuthRequest, res: Response) => {
     // Graduation Check
     if (token.bondingCurveProgress >= 100) {
       token.isGraduated = true;
-      // In a real app, this would trigger liquidity migration to Raydium
+      token.graduatedAt = new Date();
+      token.migrationHash = "mock_tx_hash_" + Date.now(); // Simulation
+
+      console.log(`Token ${token.name} Graduated!`);
+      console.log(`Migrating ${MIGRATION_SOL_AMOUNT} SOL to Meteora`);
+      console.log(`Transferring ${TEAM_FEE_SOL_AMOUNT} SOL to Team Wallet`);
     }
 
     // Update Market Cap (Dummy calc for now: 1 SOL = $200)
