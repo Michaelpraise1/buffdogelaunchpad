@@ -3,9 +3,13 @@ import { AuthRequest } from "../config/auth.middleware";
 import Token from "../models/token.model";
 import Trade from "../models/trade.model";
 import Balance from "../models/balance.model";
+import StakingPool from "../models/staking.model";
 
 const INITIAL_VIRTUAL_SOL = 30;
-const INITIAL_VIRTUAL_TOKENS = 1000000000; // 1B
+const TOTAL_SUPPLY = 1000000000; // 1B Total
+const STAKING_PERCENT = 0.05; // 5%
+const STAKING_AMOUNT = TOTAL_SUPPLY * STAKING_PERCENT; // 50M
+const INITIAL_VIRTUAL_TOKENS = TOTAL_SUPPLY - STAKING_AMOUNT; // 950M for Bonding Curve
 const GRADUATION_SOL_TARGET = 86;
 
 export const createToken = async (req: AuthRequest, res: Response) => {
@@ -76,6 +80,19 @@ export const createToken = async (req: AuthRequest, res: Response) => {
       maxWalletLimit,
       creatorBuyAmount: initialBuyAmount || 0
     });
+
+    // Allocate 5% to Staking Pool
+    let stakingPool = await StakingPool.findOne();
+    if (!stakingPool) {
+      stakingPool = await StakingPool.create({ totalSolRewards: 0, tokenRewards: [] });
+    }
+
+    stakingPool.tokenRewards.push({
+      token: token._id as any,
+      amount: STAKING_AMOUNT,
+      symbol: token.symbol
+    });
+    await stakingPool.save();
 
     // If pre-buy, create trade record and update balance
     if (tokensBought > 0) {

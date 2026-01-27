@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiSearchLine } from "react-icons/ri";
-import { FaDiscord, FaTelegramPlane, FaVolumeDown } from "react-icons/fa";
+import { FaTelegramPlane, FaVolumeDown } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import ConnectButton from "../wallet/ConnectButton";
@@ -70,18 +71,30 @@ export const Header = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Link
-                    to="/"
+                  <a
+                    href="https://t.me/buffdogecoin"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-white w-[30px] h-[30px] flex items-center justify-center hover:text-blue-400 transition-colors border border-white/30 rounded-full "
                   >
                     <FaTelegramPlane size={16} />
-                  </Link>
-                  <Link
-                    to="/"
-                    className="text-white w-[30px] h-[30px] flex items-center justify-center m-2 hover:text-blue-400 transition-colors border border-white/30 rounded-full "
+                  </a>
+                  <a
+                    href="https://x.com/buffdogefun"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white w-[30px] h-[30px] flex items-center justify-center hover:text-blue-400 transition-colors border border-white/30 rounded-full "
                   >
-                    <FaDiscord size={16} />
-                  </Link>
+                    <FaXTwitter size={16} />
+                  </a>
+                  <a
+                    href="https://buffdoge.fun"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white text-xs px-3 py-1.5 hover:text-yellow-400 transition-colors border border-white/30 rounded-full font-semibold"
+                  >
+                    Website
+                  </a>
                 </div>
               </div>
             </div>

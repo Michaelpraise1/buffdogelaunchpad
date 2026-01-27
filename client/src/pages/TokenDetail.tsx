@@ -356,30 +356,34 @@ const TokenDetail: React.FC = () => {
                 </button>
               </div>
             </div>
-
-            {/* Bonding Curve Info */}
-            <div className="bg-[#271431] p-6 rounded-3xl border border-white/10">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-bold uppercase tracking-wider">Bonding Curve</h3>
-                <span className="text-yellow-400 font-mono font-bold">{token.bondingCurveProgress}%</span>
-              </div>
-              <div className="w-full h-4 bg-[#1a0b25] rounded-full p-1 border border-white/5">
-                <div
-                  className="h-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500 rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)] transition-all duration-1000"
-                  style={{ width: `${token.bondingCurveProgress}%` }}
-                ></div>
-              </div>
-              <p className="text-[10px] text-gray-500 mt-4 leading-relaxed">
-                When market cap reaches <strong>$69,000</strong>, all liquidity will be deposited to Raydium and burned.
-              </p>
-            </div>
-
-            {/* Thread/Chat Section */}
-            <CommentSection tokenId={id!} />
+            <p className="text-xs text-center text-gray-500 mt-3 italic">
+              Note: A 0.2% Ecosystem Fee applies to all trades.
+            </p>
           </div>
+
+          {/* Bonding Curve Info */}
+          <div className="bg-[#271431] p-6 rounded-3xl border border-white/10">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-bold uppercase tracking-wider">Bonding Curve</h3>
+              <span className="text-yellow-400 font-mono font-bold">{token.bondingCurveProgress}%</span>
+            </div>
+            <div className="w-full h-4 bg-[#1a0b25] rounded-full p-1 border border-white/5">
+              <div
+                className="h-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500 rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)] transition-all duration-1000"
+                style={{ width: `${token.bondingCurveProgress}%` }}
+              ></div>
+            </div>
+            <p className="text-[10px] text-gray-500 mt-4 leading-relaxed">
+              When market cap reaches <strong>$69,000</strong>, all liquidity will be deposited to Raydium and burned.
+            </p>
+          </div>
+
+          {/* Thread/Chat Section */}
+          <CommentSection tokenId={id!} />
         </div>
       </div>
     </div>
+    </div >
   );
 };
 
