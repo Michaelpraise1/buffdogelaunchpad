@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { Header } from '../components/navigation/Header';
 import { API_BASE_URL } from '../config';
 
@@ -21,7 +22,7 @@ interface StakingData {
 }
 
 const Staking: React.FC = () => {
-    const [isWalletConnected, setIsWalletConnected] = useState(false);
+    const { connected: isWalletConnected } = useWallet();
     const [topValue, setTopValue] = useState('all-time');
     const [unclaimed, setUnclaimed] = useState('current');
     const [userRewards, setUserRewards] = useState({
