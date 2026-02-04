@@ -5,6 +5,7 @@ import Trade from "../models/trade.model";
 import Balance from "../models/balance.model";
 import StakingPool from "../models/staking.model";
 import UserStake from "../models/user-stake.model";
+import { templeService } from "../services/temple.service";
 
 const INITIAL_VIRTUAL_SOL = 30;
 // Note: INITIAL_VIRTUAL_TOKENS must match token.controller (950M if strictly used for calc, but here we read from DB usually)
@@ -115,6 +116,9 @@ export const buyToken = async (req: AuthRequest, res: Response) => {
 
     await token.save();
 
+    // Check for Temple Achievements
+    await templeService.checkTokenForAchievement(token);
+
     // Create Trade Record
     const trade = await Trade.create({
       token: tokenId,
@@ -222,6 +226,9 @@ export const sellToken = async (req: AuthRequest, res: Response) => {
     token.marketCap = token.virtualSolReserves * SOL_PRICE_USD;
 
     await token.save();
+
+    // Check for Temple Achievements
+    await templeService.checkTokenForAchievement(token);
 
     // Create Trade Record
     const trade = await Trade.create({

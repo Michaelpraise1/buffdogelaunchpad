@@ -12,6 +12,7 @@ const token_routes_1 = __importDefault(require("./routes/token.routes"));
 const trade_routes_1 = __importDefault(require("./routes/trade.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const comment_routes_1 = __importDefault(require("./routes/comment.routes"));
+const staking_routes_1 = __importDefault(require("./routes/staking.routes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,7 @@ app.use("/api/tokens", token_routes_1.default);
 app.use("/api/trades", trade_routes_1.default);
 app.use("/api/users", user_routes_1.default);
 app.use("/api/comments", comment_routes_1.default);
+app.use("/api/staking", staking_routes_1.default);
 // Database connection
 mongoose_1.default
     .connect(MONGODB_URI)

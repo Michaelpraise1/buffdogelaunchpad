@@ -8,6 +8,7 @@ import tradeRoutes from "./routes/trade.routes";
 import userRoutes from "./routes/user.routes";
 import commentRoutes from "./routes/comment.routes";
 import stakingRoutes from "./routes/staking.routes";
+import templeRoutes from "./routes/temple.routes";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/api/trades", tradeRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/staking", stakingRoutes);
+app.use("/api/temple", templeRoutes);
 
 // Database connection
 mongoose

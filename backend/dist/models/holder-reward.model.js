@@ -34,28 +34,9 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const TokenSchema = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    symbol: { type: String, required: true },
-    description: { type: String, required: true },
-    logo: { type: String, required: true },
-    creator: { type: mongoose_1.Schema.Types.ObjectId, ref: "User", required: true },
-    twitter: { type: String },
-    discord: { type: String },
-    website: { type: String },
-    github: { type: String },
-    instagram: { type: String },
-    tiktok: { type: String },
-    mintAddress: { type: String },
-    marketCap: { type: Number, default: 0 },
-    replies: { type: Number, default: 0 },
-    bondingCurveProgress: { type: Number, default: 0 },
-    virtualSolReserves: { type: Number, default: 30 }, // Start with 30 SOL virtual liquidity
-    virtualTokenReserves: { type: Number, default: 1000000000 }, // 1B tokens
-    isGraduated: { type: Boolean, default: false },
-    graduatedAt: { type: Date },
-    migrationHash: { type: String },
-    maxWalletLimit: { type: Number },
-    creatorBuyAmount: { type: Number, default: 0 },
+const HolderRewardSchema = new mongoose_1.Schema({
+    token: { type: mongoose_1.Schema.Types.ObjectId, ref: "Token", required: true, unique: true },
+    totalHolderRewards: { type: Number, default: 0 },
+    lastUpdated: { type: Date, default: Date.now },
 }, { timestamps: true });
-exports.default = mongoose_1.default.model("Token", TokenSchema);
+exports.default = mongoose_1.default.model("HolderReward", HolderRewardSchema);
