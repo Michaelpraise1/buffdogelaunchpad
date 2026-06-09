@@ -17,16 +17,18 @@ export const getCurrentPhase = async (req: Request, res: Response) => {
       });
     }
 
+    const phaseObj = phase.toObject();
+
     // Get current winners count for each tier to display "spots left"
-    const tiersWithStatus = await Promise.all(phase.tierRewards.map(async (tier) => {
+    const tiersWithStatus = await Promise.all(phaseObj.tierRewards.map(async (tier: any) => {
       const winners = await TempleAchievement.countDocuments({
         phase: phase._id,
         tier: tier.tier,
         achievedAt: { $exists: true }
       });
       return {
-        ...tier.toObject(),
-        spotsFilled: winners,
+        ...tier,
+        spotsFilled: winners, // Use calculated winners
         spotsRemaining: tier.maxSpots - winners
       };
     }));
@@ -34,7 +36,7 @@ export const getCurrentPhase = async (req: Request, res: Response) => {
     return res.status(200).json({
       active: true,
       phase: {
-        ...phase.toObject(),
+        ...phaseObj,
         tierRewards: tiersWithStatus
       }
     });
