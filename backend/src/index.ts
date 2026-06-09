@@ -12,13 +12,25 @@ import templeRoutes from "./routes/temple.routes";
 
 dotenv.config();
 
-const app = express();
+// Validate required environment variables
+const MONGODB_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/buffdoge";
+
+if (!MONGODB_URI) {
+  console.error("FATAL: MONGODB_URI environment variable is not set.");
+  process.exit(1);
+}
+
+const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Health check route
+app.get("/health", (_req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -40,4 +52,5 @@ mongoose
   })
   .catch((error) => {
     console.error("MongoDB connection error:", error);
+    process.exit(1);
   });
