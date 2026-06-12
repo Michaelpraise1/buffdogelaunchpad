@@ -42,15 +42,33 @@ app.use("/api/staking", stakingRoutes);
 app.use("/api/temple", templeRoutes);
 
 // Database connection
-mongoose
-  .connect(MONGODB_URI)
-  .then((conn) => {
-    console.log(`Connected to MongoDB: ${conn.connection.host}`);
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+const connectWithFallback = async () => {
+  try {
+    console.log("Attempting to connect to primary MongoDB...");
+    // Set a timeout of 10s for the primary connection to fail fast if it hangs
+    const conn = await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 8000
     });
-  })
-  .catch((error) => {
-    console.error("MongoDB connection error:", error);
-    process.exit(1);
+    console.log(`Connected to MongoDB: ${conn.connection.host}`);
+    return conn;
+  } catch (error: any) {
+    console.warn("Primary MongoDB connection failed:", error.message || error);
+    const localUri = "mongodb://127.0.0.1:27017/buffdoge";
+    console.log(`Attempting fallback to local MongoDB: ${localUri}`);
+    try {
+      const conn = await mongoose.connect(localUri);
+      console.log(`Connected to local MongoDB: ${conn.connection.host}`);
+      return conn;
+    } catch (localError: any) {
+      console.error("Local MongoDB fallback also failed:", localError.message || localError);
+      process.exit(1);
+    }
+  }
+};
+
+connectWithFallback().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
+});
+

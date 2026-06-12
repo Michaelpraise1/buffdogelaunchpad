@@ -32,6 +32,7 @@ const TokenDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [token, setToken] = useState<Token | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
   const [tradeType, setTradeType] = useState<"buy" | "sell">("buy");
   const [amount, setAmount] = useState("");
 
@@ -45,11 +46,25 @@ const TokenDetail: React.FC = () => {
 
   const fetchToken = async () => {
     try {
+      setLoading(true);
+      setFetchError("");
       const response = await fetch(`${API_BASE_URL}/api/tokens/${id}`);
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.message || `Server error: ${response.status}`);
+      }
+
       const data = await response.json();
+
+      if (!data.token) {
+        throw new Error("Token not found in server response");
+      }
+
       setToken(data.token);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching token:", error);
+      setFetchError(error.message || "Failed to load token");
     } finally {
       setLoading(false);
     }
@@ -146,9 +161,26 @@ const TokenDetail: React.FC = () => {
 
   if (!token) {
     return (
-      <div className="min-h-screen home-bg flex flex-col items-center justify-center text-white">
-        <h1 className="text-2xl font-bold mb-4">Token not found</h1>
-        <Link to="/" className="text-yellow-400 hover:underline">Go Back</Link>
+      <div className="min-h-screen home-bg flex flex-col items-center justify-center text-white gap-4">
+        <h1 className="text-2xl font-bold">
+          {fetchError ? "Failed to Load Token" : "Token Not Found"}
+        </h1>
+        {fetchError && (
+          <p className="text-red-400 text-sm max-w-sm text-center">{fetchError}</p>
+        )}
+        <div className="flex gap-4">
+          {fetchError && (
+            <button
+              onClick={fetchToken}
+              className="px-6 py-2 bg-yellow-400 text-black rounded-full font-bold hover:bg-yellow-500 transition-colors"
+            >
+              Retry
+            </button>
+          )}
+          <Link to="/" className="px-6 py-2 border border-gray-600 text-gray-300 rounded-full hover:text-white hover:border-white transition-colors">
+            Go Back
+          </Link>
+        </div>
       </div>
     );
   }
@@ -182,7 +214,7 @@ const TokenDetail: React.FC = () => {
                       ${token.symbol}
                     </span>
                   </div>
-                  <p className="text-gray-400 text-sm mt-1">Created by {token.creator.username || token.creator.walletAddress.slice(0, 6)}</p>
+                  <p className="text-gray-400 text-sm mt-1">Created by {token.creator?.username || token.creator?.walletAddress?.slice(0, 6) || "Unknown"}</p>
                 </div>
 
                 <div className="flex flex-wrap gap-4">

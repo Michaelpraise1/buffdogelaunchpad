@@ -62,32 +62,46 @@ const TokensPage: React.FC = () => {
   const fetchTokens = async () => {
     try {
       setLoading(true);
+      setError("");
       const response = await fetch(`${API_BASE_URL}/api/tokens`);
-      if (!response.ok) throw new Error("Failed to fetch tokens");
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.message || `Server error: ${response.status}`);
+      }
+
       const data = await response.json();
 
-      const transformedTokens: TokenData[] = data.tokens.map((t: any, index: number) => ({
+      // Guard against unexpected response shape
+      const rawTokens: any[] = Array.isArray(data.tokens) ? data.tokens : [];
+
+      const transformedTokens: TokenData[] = rawTokens.map((t: any, index: number) => ({
         id: t._id,
-        name: t.name,
-        symbol: t.symbol,
+        name: t.name || "Unknown",
+        symbol: t.symbol || "???",
         timeAgo: formatTimeAgo(t.createdAt),
-        image: t.logo,
+        image: t.logo || "/images/token-placeholder.png",
         mcap: t.marketCap || 0,
         mcapChange: 0,
         volume24h: 0,
         volumeChange: 0,
         price: 0,
-        createdBy: t.creator?.username || t.creator?.walletAddress?.slice(0, 6) + "...",
-        createdByAvatar: t.creator?.profilePicture || "/images/avatar-placeholder.png",
+        createdBy:
+          t.creator?.username ||
+          (t.creator?.walletAddress
+            ? t.creator.walletAddress.slice(0, 6) + "..."
+            : "Unknown"),
+        createdByAvatar:
+          t.creator?.profilePicture || "/images/avatar-placeholder.png",
         verified: false,
         progress: t.bondingCurveProgress || 0,
-        borderColor: ["yellow", "pink", "orange", "purple"][index % 4] as any,
+        borderColor: (["yellow", "pink", "orange", "purple"] as const)[index % 4],
       }));
 
       setTokens(transformedTokens);
     } catch (err: any) {
       console.error("Fetch tokens error:", err);
-      setError("Failed to load tokens");
+      setError(err.message || "Failed to load tokens. Is the backend running?");
     } finally {
       setLoading(false);
     }
