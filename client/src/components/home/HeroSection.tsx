@@ -1,12 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import GlowingParticles from "./GlowingParticles";
 import InfiniteText from "./InfiniteText";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full min-h-[60vh] pt-[100px]">
       <GlowingParticles />
       <div className="w-full flex items-center justify-center px-4">
-        <button className="cursor-pointer group relative overflow-hidden bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 text-gray-900 font-bold text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 py-3 sm:py-4 md:py-5 lg:py-6 xl:py-7 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-in-out border-2 border-yellow-300 hover:border-yellow-200 animate-pulse-glow hover:animate-none">
+        <button onClick={() => navigate("/start")} className="cursor-pointer group relative overflow-hidden bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 text-gray-900 font-bold text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 py-3 sm:py-4 md:py-5 lg:py-6 xl:py-7 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-in-out border-2 border-yellow-300 hover:border-yellow-200 animate-pulse-glow hover:animate-none">
           <span className="relative z-10 group-hover:animate-shake">
             Start Your Cult
           </span>

@@ -1,0 +1,13 @@
+{
+  "name": "buffdoge-launchpad",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "client"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=backend",
+    "start": "npm run start --workspace=backend"
+  }
+}

@@ -468,7 +468,7 @@ const Staking: React.FC = () => {
                     </div>
 
                     {/* Bottom CTA Card */}
-                    <div className="mx-5 bg-gradient-to-r from-purple-800/70 to-purple-900/70 rounded-2xl p-4 border border-purple-600/20 mb-5">
+                    <div className="lg:col-span-12 bg-gradient-to-r from-purple-800/70 to-purple-900/70 rounded-2xl p-4 border border-purple-600/20 mb-5">
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center">
@@ -506,7 +506,7 @@ const Staking: React.FC = () => {
                     </div>
 
                     {/* Global Stats Card */}
-                    <div className="p-5">
+                    <div className="lg:col-span-12 p-5">
                         <h3 className="text-white text-lg font-semibold mb-5">Global Stats</h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 staking-grad rounded-2xl p-4">
